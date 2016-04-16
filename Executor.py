@@ -25,9 +25,9 @@ class Executor(threading.Thread):
 
     def Play(command, out_q):
 
-        if len(command >= 2)
+        if len(command) >= 2:
             url = command[1]
-        else
+        else:
             out_q.put("No URL provided for PLAY")
 
         # Attempt to fetch streams
@@ -38,9 +38,9 @@ class Executor(threading.Thread):
         except PluginError as err:
             out_q.put("Plugin error: {0}".format(err))
 
-        if len(command) == 3
+        if len(command) == 3:
             quality = command[2]
-        else
+        else:
             quality = "best"
 
         stream = streams[quality]
