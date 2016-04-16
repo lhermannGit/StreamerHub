@@ -21,13 +21,13 @@ class Executor(threading.Thread):
     def run(self):
         while True:
             (out_q, command) = self.cmd_q.get()
-            execute(command, out_q)
+            execute(self, command, out_q)
 
     def execute(self, command, out_q):
         print "executing command " + command[0]
 	    method = getattr(self, command[0], lambda: "nothing")
 
-        return method(command, out_q)
+        return method(self, command, out_q)
 
     def Play(self, command, out_q):
 
