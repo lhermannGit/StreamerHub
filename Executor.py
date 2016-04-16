@@ -7,11 +7,11 @@ from LivestreamerPlayer import LivestreamerPlayer
 class Executor(threading.Thread):
     
     def __init__(self, cmd_q): 
-        this.livestreamerPlayer = LivestreamerPlayer()
-        this.cmd_q = cmd_q
-        this.livestreamer = Livestreamer()
-        this.livestreamer.set_loglevel("info")
-        this.livestreamer.set_logoutput(sys.stdout)
+        self.livestreamerPlayer = LivestreamerPlayer()
+        self.cmd_q = cmd_q
+        self.livestreamer = Livestreamer()
+        self.livestreamer.set_loglevel("info")
+        self.livestreamer.set_logoutput(sys.stdout)
 
     def run():
         while True:
@@ -33,7 +33,7 @@ class Executor(threading.Thread):
 
         # Attempt to fetch streams
         try:
-            streams = this.livestreamer.streams(url)
+            streams = self.livestreamer.streams(url)
         except NoPluginError:
             out_q.put("Livestreamer is unable to handle the URL '{0}'".format(url))
         except PluginError as err:
@@ -46,10 +46,10 @@ class Executor(threading.Thread):
 
         stream = streams[quality]
         
-        this.livestreamerPlayer.play(stream)
+        self.livestreamerPlayer.play(stream)
 
     def Pause(command, out_q):
         pass
 
     def Stop(command, out_q):
-        this.livestreamerPlayer.stop()
+        self.livestreamerPlayer.stop()
