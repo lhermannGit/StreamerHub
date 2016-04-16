@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import threading
 import Queue
 from livestreamer import Livestreamer, StreamError, PluginError, NoPluginError
