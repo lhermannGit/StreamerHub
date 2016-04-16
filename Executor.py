@@ -21,7 +21,7 @@ class Executor(threading.Thread):
     def run(self):
         while True:
             (out_q, command) = self.cmd_q.get()
-            execute(self, command, out_q)
+            self.execute(self, command, out_q)
 
     def execute(self, command, out_q):
         print "executing command " + command[0]
