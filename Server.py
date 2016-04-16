@@ -2,12 +2,15 @@
 
 import threading
 import socket
-import queue
+import Queue
+import time
+from thread import start_new_thread
+from Executor import Executor
 
 HOST = '192.168.1.9'
-PORT = '5005'
+PORT = 5005
 
-cmd_q = Queue()
+cmd_q = Queue.Queue()
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -17,8 +20,7 @@ except socket.error as msg:
     print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
     sys.exit()
 
-player = LivestreamerPlayer()
-
+executor = Executor()
 s.listen(10)
 print 'Socket now listening'
 
@@ -30,11 +32,12 @@ def clientthread(conn, queue):
     start_new_thread(clientInThread, (conn, queue))
 
 def clientInThread(conn, in_q):
-    out_q = Queue()
+    out_q = Queue.Queue()
     start_new_thread(clientOutThread, (conn, out_q))
     while True:
         data = conn.recv(1024)
 
+	print data
         if not data:
             break
         query = data.split(" ")

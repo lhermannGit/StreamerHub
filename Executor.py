@@ -1,6 +1,7 @@
 import threading
-import queue
+import Queue
 from livestreamer import Livestreamer, StreamError, PluginError, NoPluginError
+from LivestreamerPlayer import LivestreamerPlayer
 
 class Executor(threading.Thread):
     
@@ -17,7 +18,8 @@ class Executor(threading.Thread):
             execute(command, out_q)
 
     def execute(command, out_q):
-        method = getattr(self, command[0], lambda: "nothing")
+        print "executing command " + command[0]
+	method = getattr(self, command[0], lambda: "nothing")
 
         return method(command, out_q)
 
