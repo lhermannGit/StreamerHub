@@ -20,7 +20,7 @@ class LivestreamerPlayer(object):
 
         # This creates a playbin pipeline and using the appsrc source
         # we can feed it our stream data
-        self.pipeline = gst.ElementFactory.make("playbin", None)
+        self.pipeline = gst.ElementFactory.make("playbin", "pipeline")
         self.pipeline.set_property("uri", "appsrc://")
 
         # When the playbin creates the appsrc source it will call

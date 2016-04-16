@@ -5,7 +5,7 @@ from LivestreamerPlayer import LivestreamerPlayer
 
 class Executor(threading.Thread):
     
-    def __init__(cmd_q): 
+    def __init__(self, cmd_q): 
         this.livestreamerPlayer = LivestreamerPlayer()
         this.cmd_q = cmd_q
         this.livestreamer = Livestreamer()
@@ -19,7 +19,7 @@ class Executor(threading.Thread):
 
     def execute(command, out_q):
         print "executing command " + command[0]
-	    method = getattr(self, command[0], lambda: "nothing")
+	method = getattr(self, command[0], lambda: "nothing")
 
         return method(command, out_q)
 
