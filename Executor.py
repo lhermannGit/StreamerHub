@@ -16,6 +16,8 @@ class Executor(threading.Thread):
         self.livestreamer.set_loglevel("info")
         self.livestreamer.set_logoutput(sys.stdout)
 
+        threading.Thread.__init__ (self)
+
     def run():
         while True:
             (out_q, command) = cmd_q.get()
