@@ -18,18 +18,18 @@ class Executor(threading.Thread):
 
         threading.Thread.__init__ (self)
 
-    def run():
+    def run(self):
         while True:
             (out_q, command) = cmd_q.get()
             execute(command, out_q)
 
-    def execute(command, out_q):
+    def execute(self, command, out_q):
         print "executing command " + command[0]
 	method = getattr(self, command[0], lambda: "nothing")
 
         return method(command, out_q)
 
-    def Play(command, out_q):
+    def Play(self, command, out_q):
 
         if len(command) >= 2:
             url = command[1]
@@ -53,8 +53,8 @@ class Executor(threading.Thread):
         
         self.livestreamerPlayer.play(stream)
 
-    def Pause(command, out_q):
+    def Pause(self, command, out_q):
         pass
 
-    def Stop(command, out_q):
+    def Stop(self, command, out_q):
         self.livestreamerPlayer.stop()
