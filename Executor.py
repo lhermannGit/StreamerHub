@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 import threading
 import Queue
+import sys
+
 from livestreamer import Livestreamer, StreamError, PluginError, NoPluginError
 from LivestreamerPlayer import LivestreamerPlayer
+
 
 class Executor(threading.Thread):
     
