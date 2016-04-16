@@ -15,6 +15,10 @@ def exit(msg):
 class LivestreamerPlayer(object):
     def __init__(self):
         
+        gi.require_version("Gst", "1.0")
+        gobject.threads_init()
+        gst.init(None)
+
         self.fd = None
         self.mainloop = gobject.MainLoop()
 
