@@ -5,8 +5,8 @@ from LivestreamerPlayer import LivestreamerPlayer
 
 class Executor(threading.Thread):
     
-    def __init__(livestreamerPlayer, cmd_q): 
-        this.livestreamerPlayer = livestreamerPlayer
+    def __init__(cmd_q): 
+        this.livestreamerPlayer = LivestreamerPlayer()
         this.cmd_q = cmd_q
         this.livestreamer = Livestreamer()
         this.livestreamer.set_loglevel("info")
