@@ -21,37 +21,38 @@ class Executor(threading.Thread):
     def run(self):
         while True:
             (out_q, command) = self.cmd_q.get()
+            print command
             self.execute(self, command, out_q)
 
     def execute(self, command, out_q):
         print "executing command " + command[0]
-	method = getattr(self, command[0], lambda: "nothing")
+        method = getattr(self, command['command'], lambda: "nothing")
 
         return method(self, command, out_q)
 
     def Play(self, command, out_q):
 
-        if len(command) >= 2:
-            url = command[1]
-        else:
-            out_q.put("No URL provided for PLAY")
+        if not 'url' in command:
+           out_q.put("No URL provided to play")
+        else
+            # Attempt to fetch streams
+            try:
+                streams = self.livestreamer.streams(command['url'])
+            except NoPluginError:
+                out_q.put("Livestreamer is unable to handle the URL '{0}'".format(command['url']))
+            except PluginError as err:
+                out_q.put("Plugin error: {0}".format(err))
 
-        # Attempt to fetch streams
-        try:
-            streams = self.livestreamer.streams(url)
-        except NoPluginError:
-            out_q.put("Livestreamer is unable to handle the URL '{0}'".format(url))
-        except PluginError as err:
-            out_q.put("Plugin error: {0}".format(err))
+            if 'quality' in command:
+                quality = command['quality']
+            else:
+                quality = 'high'
 
-        if len(command) == 3:
-            quality = command[2]
-        else:
-            quality = "best"
+            stream = streams[quality]
 
-        stream = streams[quality]
-        
-        self.livestreamerPlayer.play(stream)
+            self.livestreamerPlayer.play(stream)
+
+            out_q.put("started streaming '{0}' ".format(command['url']))
 
     def Pause(self, command, out_q):
         pass
