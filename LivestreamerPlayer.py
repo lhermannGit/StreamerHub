@@ -1,10 +1,9 @@
-#!/usr/bin/env python
-
 from __future__ import print_function
 
 import sys
 
 import gi
+gi.require_version('Gst','1.0')
 from gi.repository import GObject as gobject, Gst as gst
 from livestreamer import Livestreamer, StreamError, PluginError, NoPluginError
 

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import threading
 import Queue
 import sys
@@ -15,29 +14,29 @@ class Executor(threading.Thread):
         self.livestreamer = Livestreamer()
         self.livestreamer.set_loglevel("info")
         self.livestreamer.set_logoutput(sys.stdout)
-
+	self.livestreamer.set_option("http-headers", "Client-ID=jzkbprff40iqj646a697cyrvl0zt2m6")
         threading.Thread.__init__ (self)
 
     def run(self):
         while True:
             (out_q, command) = self.cmd_q.get()
             print command
-            self.execute(self, command, out_q)
+            self.execute(command, out_q)
 
     def execute(self, command, out_q):
-        print "executing command " + command[0]
         method = getattr(self, command['command'], lambda: "nothing")
-
-        return method(self, command, out_q)
+	print command['command']
+        return method(command, out_q)
 
     def Play(self, command, out_q):
 
         if not 'url' in command:
            out_q.put("No URL provided to play")
-        else
+        else:
             # Attempt to fetch streams
             try:
-                streams = self.livestreamer.streams(command['url'])
+                print "[Debug] URL to play '{0}'".format(command['url'])
+		streams = self.livestreamer.streams(command['url'])
             except NoPluginError:
                 out_q.put("Livestreamer is unable to handle the URL '{0}'".format(command['url']))
             except PluginError as err:
@@ -46,7 +45,7 @@ class Executor(threading.Thread):
             if 'quality' in command:
                 quality = command['quality']
             else:
-                quality = 'high'
+                quality = 'medium'
 
             stream = streams[quality]
 

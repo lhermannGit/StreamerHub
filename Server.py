@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import threading
 import socket
 import Queue
@@ -8,6 +6,7 @@ import json
 import struct
 import shelve
 import sys
+from Executor import Executor
 from thread import start_new_thread
 
 
@@ -43,7 +42,8 @@ def addUser(username):
     return str(highest_id + 1)
 
 
-HOST = socket.gethostname()
+#HOST = socket.gethostname()
+HOST = '192.168.1.100'
 PORT = 5005
 TYPE_JSON = 1;
 TYPE_MESSAGE = 2;
@@ -59,8 +59,8 @@ except socket.error as msg:
     print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
     sys.exit()
 
-#executor = Executor(cmd_q)
-#executor.start()
+executor = Executor(cmd_q)
+executor.start()
 s.listen(10)
 print 'Socket now listening'
 
